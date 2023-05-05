@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreCommon/HutoolCore.HutoolCoreCommon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreCommon/HutoolCore.HutoolCoreCommon.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreInForge/HutoolCore.HutoolCoreInForge.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreInForge/HutoolCore.HutoolCoreInForge.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInFabric.HutoolCoreCommon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInFabric.HutoolCoreCommon.main.iml" />
+    </modules>
+  </component>
+</project>

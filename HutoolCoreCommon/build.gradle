@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'cn.korostudio.mc'
+version = '1.1.0'
+def hutool_version = '5.8.16'
+def appVersion = version
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.slf4j:slf4j-api:1.8.0-beta4'
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    implementation "cn.hutool:hutool-all:${hutool_version}"
+    implementation "com.google.zxing:core:3.3.3"
+
+
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = group
+            artifactId = 'hutoolcorecommon'
+            version = appVersion
+
+            from components.java
+
+            // 配置 pom 信息
+            pom {
+                name = 'HutoolCoreCommon'
+                description = 'HutoolCore公共代码'
+                licenses {
+                    license {
+                        name = 'LGPLV3'
+                        url = 'https://www.gnu.org/licenses/lgpl-3.0.zh-cn.html'
+                    }
+                }
+            }
+        }
+    }
+
+    // 配置发布到本地仓库
+    repositories {
+        mavenLocal()
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

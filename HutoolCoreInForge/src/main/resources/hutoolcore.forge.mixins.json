@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cn.korostudio.mc.hutoolcore.hutoolcore.forge.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "hutoolcore.forge.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

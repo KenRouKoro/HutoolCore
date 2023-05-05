@@ -1,0 +1,5 @@
+name: HutoolCoreInPaper
+version: '${version}'
+main: cn.korostudio.mc.hutoolcore.paper.HutoolCoreInPaper
+api-version: 1.13
+load: STARTUP

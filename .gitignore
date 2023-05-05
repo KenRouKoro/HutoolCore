@@ -1,0 +1,18 @@
+# 项目排除路径
+/.gradle/
+/build/
+/HutoolCoreCommon/.gradle/
+/HutoolCoreCommon/build/
+/HutoolCoreCommon/build/classes/java/main/
+/HutoolCoreInFabric/.gradle/
+/HutoolCoreInFabric/build/
+/HutoolCoreInForge/build/
+/HutoolCoreInForge/build/classes/java/main/
+/HutoolCoreInIgnite/.gradle/
+/HutoolCoreInIgnite/build/
+/HutoolCoreInIgnite/build/classes/java/main/
+/HutoolCoreInIgnite/build-logic/.gradle/
+/HutoolCoreInIgnite/build-logic/build/
+/HutoolCoreInIgnite/build-logic/build/classes/kotlin/main/
+/HutoolCoreInPaper/build/
+/HutoolCoreInPaper/build/classes/java/main/
