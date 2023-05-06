@@ -116,6 +116,7 @@ public class WebConfig {
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
             server.getRawServer().stop(5);
         }));
+        
     }
 
 
