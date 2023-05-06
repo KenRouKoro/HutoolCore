@@ -114,9 +114,10 @@ public class WebConfig {
             log.info("\n"+ StrQRcode(HutoolCore.getConfig().getWebServerUrlHeader() + ":" + HutoolCore.getConfig().getWebServerPort()));
         }
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
+            log.info("正在关闭HTTPServer");
             server.getRawServer().stop(5);
         }));
-        
+
     }
 
 
