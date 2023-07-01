@@ -5,6 +5,17 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreCommon/HutoolCore.HutoolCoreCommon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreCommon/HutoolCore.HutoolCoreCommon.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreInForge/HutoolCore.HutoolCoreInForge.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreInForge/HutoolCore.HutoolCoreInForge.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInFabric.HutoolCoreCommon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInFabric.HutoolCoreCommon.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreInFabric.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreInFabric.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreInFabric.test.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreInFabric.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInForge.HutoolCoreCommon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInForge.HutoolCoreCommon.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreInForge.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreInForge.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreInForge.test.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreInForge.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInIgnite.HutoolCoreCommon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInIgnite.HutoolCoreCommon.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreInIgnite.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreInIgnite.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreInIgnite.test.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreInIgnite.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInPaper.HutoolCoreCommon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-878068697/HutoolCoreInPaper.HutoolCoreCommon.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HutoolCoreInPaper.main.iml" filepath="$PROJECT_DIR$/.idea/modules/HutoolCoreInPaper.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-878068697/cn.korostudio.mc.HutoolCoreInFabric.HutoolCoreCommon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-878068697/cn.korostudio.mc.HutoolCoreInFabric.HutoolCoreCommon.main.iml" />
     </modules>
   </component>
 </project>

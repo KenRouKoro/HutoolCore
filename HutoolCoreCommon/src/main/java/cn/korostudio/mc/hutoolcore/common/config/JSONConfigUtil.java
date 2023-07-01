@@ -24,9 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Slf4j
-public class ConfigUtil {
+public class JSONConfigUtil {
     @Getter
-    private static final ConcurrentHashMap<String,Object>configObject = new ConcurrentHashMap<>();
+    protected static final ConcurrentHashMap<String,Object>configObject = new ConcurrentHashMap<>();
     @Getter
     private static final ConcurrentHashMap<String, List<ConfigChangeCallback>>configCallbackMap = new ConcurrentHashMap<>();
     @Getter
@@ -111,7 +111,7 @@ public class ConfigUtil {
         updateConfig(name,JSONUtil.parseObj(configJSON));
     }
     public static void updateConfig(String name, JSONObject configJSON) throws NameNotFoundException {
-        Object obj = ConfigUtil.getConfigObject().get(name);
+        Object obj = JSONConfigUtil.getConfigObject().get(name);
 
         if (obj==null){
             throw new NameNotFoundException("ID "+name+" 没有对应的配置文件注册。");

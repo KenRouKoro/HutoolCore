@@ -1,11 +1,9 @@
 package cn.korostudio.mc.hutoolcore.common.webconfig;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.io.file.FileReader;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.extra.qrcode.QrCodeUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.server.SimpleServer;
@@ -13,8 +11,10 @@ import cn.hutool.http.server.handler.ActionHandler;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import cn.korostudio.ctoml.OutputAnnotation;
+import cn.korostudio.ctoml.OutputAnnotationData;
 import cn.korostudio.mc.hutoolcore.common.HutoolCore;
-import cn.korostudio.mc.hutoolcore.common.config.ConfigUtil;
+import cn.korostudio.mc.hutoolcore.common.config.JSONConfigUtil;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -28,13 +28,15 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.naming.NameNotFoundException;
 import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.HashMap;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 @Slf4j
 public class WebConfig {
     @Getter
     protected static SimpleServer server ;
+    @SuppressWarnings("unchecked")
     public static void init(){
         ClassPathResource resource = new ClassPathResource("web/index.html",WebConfig.class);
         ClassPathResource resourceJS = new ClassPathResource("web/assets/index.js",WebConfig.class);
@@ -70,7 +72,7 @@ public class WebConfig {
         });
         server.addAction("/datalist",(request,response)->{
             JSONArray array = new JSONArray();
-            ConfigUtil.getConfigObject().forEach((key,obj)->{
+            JSONConfigUtil.getConfigObject().forEach((key, obj)->{
                 JSONObject object = new JSONObject();
                 object.putOnce("id",key);
                 object.putOnce("name",key);
@@ -80,7 +82,29 @@ public class WebConfig {
         });
         server.addAction("/getdata",((request, response) -> {
             String id = request.getParam("id");
-            response.write(JSONUtil.toJsonStr(ConfigUtil.getConfigObject().get(id)),ContentType.JSON.toString());
+            response.write(JSONUtil.toJsonStr(JSONConfigUtil.getConfigObject().get(id)),ContentType.JSON.toString());
+        }));
+        server.addAction("/getannotation",((request, response) -> {
+            String id = request.getParam("id");
+            Object obj = JSONConfigUtil.getConfigObject().get(id);
+            Set<Field> fields = getFields(obj.getClass());
+            Map<String, Object> to = new LinkedHashMap<>();
+            OutputAnnotation classAnn = obj.getClass().getAnnotation(OutputAnnotation.class);
+            if (isValidAnnotation(classAnn)){
+                to.put("CLASS_ANN",classAnn.value());
+            }
+
+            for (Field field : fields) {
+                OutputAnnotation annotation = field.getAnnotation(OutputAnnotation.class);
+                field.setAccessible(true);
+                if(isValidAnnotation(annotation)){
+                    handleAnnotation(obj, to, field, annotation);
+                }else {
+                    handleNonAnnotatedField(obj, to, field);
+                }
+            }
+            String rep = JSONUtil.toJsonStr(to);
+            response.write(rep,ContentType.JSON.toString());
         }));
         server.addAction("/updata",((request, response) -> {
             String data = request.getBody(CharsetUtil.CHARSET_UTF_8);
@@ -88,7 +112,7 @@ public class WebConfig {
             String id = jsonObject.getStr("id");
             JSONObject value = jsonObject.getJSONObject("data");
             try {
-                ConfigUtil.updateConfig(id,value);
+                JSONConfigUtil.updateConfig(id,value);
             } catch (NameNotFoundException e) {
                 response.send404("未知请求ID");
                 return;
@@ -97,7 +121,7 @@ public class WebConfig {
                 response.sendError(502,e.getMessage());
                 return;
             }
-            ConfigUtil.save(id);
+            JSONConfigUtil.save(id);
             response.write("{\"status\":\"ok\"}",ContentType.JSON.toString());
         }));
 
@@ -115,9 +139,62 @@ public class WebConfig {
         }
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
             log.info("正在关闭HTTPServer");
-            server.getRawServer().stop(5);
+            server.getRawServer().stop(2);
         }));
 
+    }
+
+    public static Map<String,Object> getBeanAnn(Class<?> target){
+        return getBeanAnn(target, new HashSet<>());
+    }
+
+    private static Map<String,Object> getBeanAnn(Class<?> target, Set<Class<?>> visited){
+        if (visited.contains(target)) {
+            return Collections.emptyMap();
+        }
+
+        visited.add(target);
+
+        Set<Field> fields = getFields(target);
+        Map<String, Object> to = new LinkedHashMap<>();
+        OutputAnnotation classAnn = target.getAnnotation(OutputAnnotation.class);
+        if (isValidAnnotation(classAnn)){
+            to.put("CLASS_ANN",classAnn.value());
+        }
+        for (Field field : fields) {
+            OutputAnnotation annotation = field.getAnnotation(OutputAnnotation.class);
+            field.setAccessible(true);
+            if(isValidAnnotation(annotation)){
+                if (BeanUtil.isBean(field.getType())){
+                    to.put(field.getName(),getBeanAnn(field.getType(), visited));
+                }else if(Map.class.isAssignableFrom(field.getType())){
+                    // Handle Map type field, you need to implement this method
+                    handleMapFieldInBeanAnn(field, to, visited);
+                }
+                else {
+                    to.put(field.getName(), annotation.value());
+                }
+            }else {
+                to.put(field.getName(), null);
+            }
+        }
+        return to;
+    }
+
+    private static void handleMapFieldInBeanAnn(Field field, Map<String, Object> to, Set<Class<?>> visited) {
+        try {
+            Map<String, Object> mapValue = (Map<String, Object>) field.get(null);
+            Map<String, Object> annotationMap = new LinkedHashMap<>();
+            for(Map.Entry<String, Object> entry : mapValue.entrySet()) {
+                if (BeanUtil.isBean(entry.getValue().getClass())) {
+                    annotationMap.put(entry.getKey(), getBeanAnn(entry.getValue().getClass(), visited));
+                }
+            }
+            to.put(field.getName(), annotationMap);
+        } catch (IllegalAccessException e) {
+            // Log the exception here
+            log.error("Accessing field failed", e);
+        }
     }
 
 
@@ -152,5 +229,63 @@ public class WebConfig {
             log.error("",e);
         }
         return str.toString();
+    }
+    private static Set<Field> getFields(Class<?> cls) {
+        Set<Field> fields = new LinkedHashSet<Field>(Arrays.asList(cls.getDeclaredFields()));
+        while (cls != Object.class) {
+            fields.addAll(Arrays.asList(cls.getDeclaredFields()));
+            cls = cls.getSuperclass();
+        }
+        removeConstantsAndSyntheticFields(fields);
+
+        return fields;
+    }
+    private static void removeConstantsAndSyntheticFields(Set<Field> fields) {
+        Iterator<Field> iterator = fields.iterator();
+        while (iterator.hasNext()) {
+            Field field = iterator.next();
+            if ((Modifier.isFinal(field.getModifiers()) && Modifier.isStatic(field.getModifiers())) || field.isSynthetic() || Modifier.isTransient(field.getModifiers())) {
+                iterator.remove();
+            }
+        }
+    }
+
+    private static boolean isValidAnnotation(OutputAnnotation annotation){
+        return annotation != null && annotation.at() != null && annotation.value() != null;
+    }
+
+    private static void handleAnnotation(Object obj, Map<String, Object> to, Field field, OutputAnnotation annotation){
+        if (BeanUtil.isBean(field.getType())){
+            to.put(field.getName(),getBeanAnn(field.getType()));
+        }else if(Map.class.isAssignableFrom(field.getType())){
+            handleMapField(obj, to, field);
+        }
+        else {
+            to.put(field.getName(), annotation.value());
+        }
+    }
+
+    private static void handleNonAnnotatedField(Object obj, Map<String, Object> to, Field field){
+        if(Map.class.isAssignableFrom(field.getType())){
+            handleMapField(obj, to, field);
+        }else {
+            to.put(field.getName(), null);
+        }
+    }
+
+    private static void handleMapField(Object obj, Map<String, Object> to, Field field){
+        try {
+            Map<String,Object> mapObj = (Map<String, Object>) field.get(obj);
+            Map<String, Object> to1 = new LinkedHashMap<>();
+            for(String key: mapObj.keySet()){
+                Object value = mapObj.get(key);
+                if (BeanUtil.isBean(value.getClass())){
+                    to1.put(key,getBeanAnn(value.getClass()));
+                }
+            }
+            to.put(field.getName(),to1);
+        } catch (Exception e) {
+            log.error("转换Map对象失败",e);
+        }
     }
 }

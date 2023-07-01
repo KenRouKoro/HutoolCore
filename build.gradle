@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'cn.korostudio.mc'
-version '1.1.0'
+version '1.2.0'
 
 ext {
     appVersion = version
@@ -14,6 +14,7 @@ ext {
 repositories {
     mavenCentral()
     mavenLocal()
+    maven { url 'https://jitpack.io' }
 }
 
 
@@ -22,6 +23,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation "cn.hutool:hutool-all:${hutool_version}"
     implementation "com.google.zxing:core:3.3.3"
+    implementation 'com.github.KenRouKoro:ctoml4j:1.0.1'
 }
 
 tasks.register('buildAll') {
@@ -164,6 +166,7 @@ shadowJar {
         // 只打包 cn.hutool:hutool-all 依赖及其所有传递依赖
         include(dependency('cn.hutool:hutool-all'))
         include(dependency('com.google.zxing:core:3.3.3'))
+        include(dependency('com.github.KenRouKoro:ctoml4j:1.0.1'))
         // 排除其他依赖
         exclude(dependency('org.junit.jupiter:junit-jupiter-api'))
         exclude(dependency('org.junit.jupiter:junit-jupiter-engine'))

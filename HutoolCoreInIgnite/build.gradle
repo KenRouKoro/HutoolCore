@@ -3,15 +3,18 @@ plugins {
 }
 
 group = "cn.korostudio.mc.wac"
-version = rootProject.ext.appVersion
+apply from:'../commonsettings.gradle'
+version = ProjectVersion
 archivesBaseName = "HutoolCoreInIgnite"
 dependencies {
     implementation("space.vectrix.ignite:ignite-api:0.8.1")
     implementation("org.spongepowered:mixin:0.8.5")
 
-    paperweight.paperDevBundle("1.19.3-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.20-R0.1-SNAPSHOT")
     implementation project(path: ':HutoolCoreCommon')
+
 }
 repositories {
   mavenCentral()
+  maven { url 'https://jitpack.io' }
 }

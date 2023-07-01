@@ -4,6 +4,34 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="C:/Program Files/gradle/gradle-7.6" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/HutoolCoreInFabric" />
+        <option name="gradleHome" value="C:/Program Files/gradle/gradle-7.6" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/HutoolCoreCommon" />
+            <option value="$PROJECT_DIR$/HutoolCoreInFabric" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/HutoolCoreInForge" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/HutoolCoreCommon" />
+            <option value="$PROJECT_DIR$/HutoolCoreInForge" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <compositeConfiguration>
           <compositeBuild compositeDefinitionSource="SCRIPT">
             <builds>
@@ -15,28 +43,21 @@
             </builds>
           </compositeBuild>
         </compositeConfiguration>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="C:/Program Files/gradle/gradle-7.6" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/HutoolCoreInIgnite" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/HutoolCoreCommon" />
-            <option value="$PROJECT_DIR$/HutoolCoreInForge" />
             <option value="$PROJECT_DIR$/HutoolCoreInIgnite" />
             <option value="$PROJECT_DIR$/HutoolCoreInIgnite/build-logic" />
-            <option value="$PROJECT_DIR$/HutoolCoreInPaper" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/HutoolCoreInFabric" />
-        <option name="gradleHome" value="C:/Program Files/gradle/gradle-7.6" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/HutoolCoreInPaper" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/HutoolCoreCommon" />
-            <option value="$PROJECT_DIR$/HutoolCoreInFabric" />
+            <option value="$PROJECT_DIR$/HutoolCoreInPaper" />
           </set>
         </option>
       </GradleProjectSettings>

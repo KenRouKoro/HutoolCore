@@ -1,7 +1,8 @@
 package cn.korostudio.mc.hutoolcore.common;
 
-import cn.korostudio.mc.hutoolcore.common.config.ConfigUtil;
+import cn.korostudio.mc.hutoolcore.common.config.JSONConfigUtil;
 import cn.korostudio.mc.hutoolcore.common.config.HutoolCoreConfig;
+import cn.korostudio.mc.hutoolcore.common.config.TOMLConfigUtil;
 import cn.korostudio.mc.hutoolcore.common.webconfig.WebConfig;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,7 @@ public class HutoolCore {
     @Getter
     protected static Loader loader = Loader.None;
     @Getter
-    protected static HutoolCoreConfig config = ConfigUtil.getInstance("HutoolCoreConfig",HutoolCoreConfig.class);
+    protected static HutoolCoreConfig config = TOMLConfigUtil.getInstance("HutoolCoreConfig",HutoolCoreConfig.class);
 
     public static void init(Loader loader){
         if(getLoader()!=Loader.None){
